@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\PostTagPivot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -12,18 +13,23 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $post = Post::all();
-        return view('post.index', compact('post'));    }
+
+        public function index()
+        {
+            $posts = Post::with('tags')->get(); // Ensure to eager load tags
+            return view('post.index', compact('posts'));
+        }
+          
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $posts = Post::all();
         $tags = Tag::all();
-        return view('post.create', compact('tags'));
+        return view('post.create', compact('posts', 'tags'));
+        
     }
     
 

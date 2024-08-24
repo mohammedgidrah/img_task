@@ -1,3 +1,7 @@
+@extends('master')
+@section('title')
+    
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,8 +19,8 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 30px auto;
+            max-width: 800px; /* Adjusted for a smaller container */
+            margin: 100px auto;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 8px;
@@ -30,9 +34,9 @@
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 8px 16px; /* Reduced padding */
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px; /* Smaller font size */
             color: #ffffff;
             text-align: center;
             cursor: pointer;
@@ -69,7 +73,7 @@
         }
 
         .alert-success {
-            padding: 15px;
+            padding: 10px; /* Reduced padding */
             margin-bottom: 20px;
             border-radius: 4px;
             color: #155724;
@@ -81,6 +85,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 14px; /* Smaller font size */
         }
 
         thead {
@@ -90,7 +95,7 @@
 
         th,
         td {
-            padding: 12px;
+            padding: 8px; /* Reduced padding */
             text-align: left;
             border-bottom: 1px solid #dee2e6;
         }
@@ -115,7 +120,7 @@
 
         .form-control {
             width: 100%;
-            padding: 10px;
+            padding: 8px; /* Reduced padding */
             border-radius: 4px;
             border: 1px solid #ced4da;
             box-sizing: border-box;
@@ -173,8 +178,7 @@
 
 <body>
     <div class="container">
-        <h1>All Products</h1>
-        <a href="{{ route('post.create') }}" class="btn btn-primary mb-3">Add Product</a>
+        <h1>All Posts</h1>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -188,22 +192,27 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Content</th>
+                    <th>Tags</th>
                     <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($post as $posts)
+                @foreach ($posts as $post)
                 <tr>
-                    <td>{{ $posts->id }}</td>
-                    <td>{{ $posts->title }}</td>
-                    <td>{{ $posts->content }}</td>  
-                    <td><img src="{{ asset($posts->image) }}" style="height: fit-content; width:100px" alt="Post Image"></td>
-
+                    <td>{{ $post->id }}</td>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->content }}</td>
                     <td>
-                        <a href="{{ route('post.edit', $posts->id) }}" class="btn btn-warning">Edit</a>
+                        @foreach ($post->tags as $tag)
+                            {{ $tag->name }}@if (!$loop->last), @endif
+                        @endforeach
+                    </td>
+                    <td><img src="{{ asset($post->image) }}" style="height: 60px; width:auto;" alt="Post Image"></td>
+                    <td>
+                        <a href="{{ route('post.edit', $post->id) }}" class="btn btn-warning">Edit</a>
 
-                        <form action="{{ route('post.destroy', $posts->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('post.destroy', $post->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
@@ -217,3 +226,5 @@
 </body>
 
 </html>
+
+@endsection

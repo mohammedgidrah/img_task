@@ -1,3 +1,8 @@
+
+@extends('master')
+@section('title')
+@section('content')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +19,7 @@
     }
     .container {
         max-width: 600px;
-        margin: 0 auto;
+        margin: 150px auto;
         background: #ffffff;
         padding: 20px;
         border-radius: 8px;
@@ -76,3 +81,4 @@
     </div>
 </body>
 </html>
+@endsection
